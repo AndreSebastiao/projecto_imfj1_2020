@@ -67,28 +67,39 @@ def main():
                     return
                 elif event.key == pygame.K_DOWN:
                     ax = (Vector3(-1,0,0) * math.radians(angle) * delta_time)
-                    q = Quaternion.AngleAxis(Vector3(-1,0,0), math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(-10,0,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_UP:
                     ax = (Vector3(1,0,0) * math.radians(angle) * delta_time)
-                    q = Quaternion.AngleAxis(Vector3(1,0,0), math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(10,0,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_LEFT:
                     ax = (Vector3(0,1,0) * math.radians(angle) * delta_time)
-                    q = Quaternion.AngleAxis(Vector3(0,1,0), math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,10,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_RIGHT:
                     ax = (Vector3(0,-1,0) * math.radians(angle) * delta_time)
-                    q = Quaternion.AngleAxis(Vector3(0,-1,0), math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,-10,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_PAGEUP:
                     ax = (Vector3(0,0,1) * math.radians(angle) * delta_time)
-                    q = Quaternion.AngleAxis(Vector3(0,0,1), math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,0,10), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_PAGEDOWN:
                     ax = (Vector3(0,0,-1) * math.radians(angle) * delta_time)
-                    q = Quaternion.AngleAxis(Vector3(0,0,-1), math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,0,-10), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
+                elif event.key == pygame.K_w:
+                    obj1.position = obj1.position + Vector3(0, 0.01, 0)
+                elif event.key == pygame.K_s:
+                    obj1.position = obj1.position + Vector3(0, -0.01, 0)
+                elif event.key == pygame.K_a:
+                    obj1.position = obj1.position + Vector3(-0.01, 0, 0)
+                elif event.key == pygame.K_d:
+                    obj1.position = obj1.position + Vector3(0.01, 0, 0)
+                    
+                
+                
 
                 
 
