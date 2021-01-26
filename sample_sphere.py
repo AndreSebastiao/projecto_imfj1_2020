@@ -65,15 +65,41 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return
+                elif event.key == pygame.K_DOWN:
+                    ax = (Vector3(-1,0,0) * math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(-1,0,0), math.radians(angle) * delta_time)
+                    obj1.rotation = q * obj1.rotation
+                elif event.key == pygame.K_UP:
+                    ax = (Vector3(1,0,0) * math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(1,0,0), math.radians(angle) * delta_time)
+                    obj1.rotation = q * obj1.rotation
+                elif event.key == pygame.K_LEFT:
+                    ax = (Vector3(0,1,0) * math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,1,0), math.radians(angle) * delta_time)
+                    obj1.rotation = q * obj1.rotation
+                elif event.key == pygame.K_RIGHT:
+                    ax = (Vector3(0,-1,0) * math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,-1,0), math.radians(angle) * delta_time)
+                    obj1.rotation = q * obj1.rotation
+                elif event.key == pygame.K_PAGEUP:
+                    ax = (Vector3(0,0,1) * math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,0,1), math.radians(angle) * delta_time)
+                    obj1.rotation = q * obj1.rotation
+                elif event.key == pygame.K_PAGEDOWN:
+                    ax = (Vector3(0,0,-1) * math.radians(angle) * delta_time)
+                    q = Quaternion.AngleAxis(Vector3(0,0,-1), math.radians(angle) * delta_time)
+                    obj1.rotation = q * obj1.rotation
+
+                
 
         # Clears the screen with a very dark blue (0, 0, 20)
         screen.fill((0, 0, 0))
 
         # Rotates the object, considering the time passed (not linked to frame rate)
-        ax = (axis * math.radians(angle) * delta_time)
+        # ax = (axis * math.radians(angle) * delta_time)
 
-        q = Quaternion.AngleAxis(axis, math.radians(angle) * delta_time)
-        obj1.rotation = q * obj1.rotation
+        # q = Quaternion.AngleAxis(axis, math.radians(angle) * delta_time)
+        # obj1.rotation = q * obj1.rotation
 
         scene.render(screen)
 
