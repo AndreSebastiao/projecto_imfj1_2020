@@ -5,7 +5,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import pywavefront
 
-scene = pywavefront.Wavefront('BaseSpederMan.obj', collect_faces=True)
+scene = pywavefront.Wavefront('Bottle.obj', collect_faces=True)
 
 scene_box = (scene.vertices[0], scene.vertices[0])
 for vertex in scene.vertices:
