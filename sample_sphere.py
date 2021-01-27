@@ -67,50 +67,56 @@ def main():
                     # Exits the application immediately
                     return
                 elif event.key == pygame.K_DOWN:
+                    # Turns the application negatively around the Y axis
                     ax = (Vector3(-1,0,0) * math.radians(angle) * delta_time)
                     q = Quaternion.AngleAxis(Vector3(-10,0,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_UP:
+                    # Turns the application positively around the Y axis
                     ax = (Vector3(1,0,0) * math.radians(angle) * delta_time)
                     q = Quaternion.AngleAxis(Vector3(10,0,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_LEFT:
+                    # Turns the application positively around the X axis
                     ax = (Vector3(0,1,0) * math.radians(angle) * delta_time)
                     q = Quaternion.AngleAxis(Vector3(0,10,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_RIGHT:
+                    # Turns the application negatively around the X axis
                     ax = (Vector3(0,-1,0) * math.radians(angle) * delta_time)
                     q = Quaternion.AngleAxis(Vector3(0,-10,0), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_PAGEUP:
+                    # Turns the application positively around the Z axis
                     ax = (Vector3(0,0,1) * math.radians(angle) * delta_time)
                     q = Quaternion.AngleAxis(Vector3(0,0,10), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_PAGEDOWN:
+                    # Turns the application negatively around the Z axis
                     ax = (Vector3(0,0,-1) * math.radians(angle) * delta_time)
                     q = Quaternion.AngleAxis(Vector3(0,0,-10), math.radians(angle) * delta_time)
                     obj1.rotation = q * obj1.rotation
                 elif event.key == pygame.K_w:
+                    # Move the object up
                     obj1.position = obj1.position + Vector3(0, 0.01, 0)
                 elif event.key == pygame.K_s:
+                    # Move the object down
                     obj1.position = obj1.position + Vector3(0, -0.01, 0)
                 elif event.key == pygame.K_a:
+                    # Move the object to the left
                     obj1.position = obj1.position + Vector3(-0.01, 0, 0)
                 elif event.key == pygame.K_d:
+                    # Move the object to the right
                     obj1.position = obj1.position + Vector3(0.01, 0, 0)
                 elif event.key == pygame.K_q:
+                    # Push the object away from the screen
                     obj1.position = obj1.position + Vector3(0, 0, 0.05)
                 elif event.key == pygame.K_e:
+                    # Pull the object towards the screen
                     obj1.position = obj1.position + Vector3(0, 0, -0.05)
                     
         # Clears the screen with a very dark blue (0, 0, 20)
         screen.fill((0, 0, 0))
-
-        # Rotates the object, considering the time passed (not linked to frame rate)
-        # ax = (axis * math.radians(angle) * delta_time)
-
-        # q = Quaternion.AngleAxis(axis, math.radians(angle) * delta_time)
-        # obj1.rotation = q * obj1.rotation
 
         scene.render(screen)
 
