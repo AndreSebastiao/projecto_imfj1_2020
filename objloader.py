@@ -3,36 +3,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
  
-def MTL(filename):
-    contents = {}
-    mtl = None
-    for line in open(filename, "r"):
-        if line.startswith('#'): continue
-        values = line.split()
-        if not values: continue
-        if values[0] == 'newmtl':
-            mtl = contents[values[1]] = {}
-        elif mtl is None:
-            raise (ValueError, "mtl file doesn't start with newmtl stmt")
-        elif values[0] == 'map_Kd':
-            # load the texture referred to by this declaration
-            mtl[values[0]] = values[1]
-            print(mtl['map_Kd'])
-            surf = pygame.image.load(mtl['map_Kd'])
-            image = pygame.image.tostring(surf, 'RGBA', 1)
-            ix, iy = surf.get_rect().size
-            texid = mtl['texture_Kd'] = glGenTextures(1)
-            glBindTexture(GL_TEXTURE_2D, texid)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                GL_LINEAR)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                GL_LINEAR)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ix, iy, 0, GL_RGBA,
-                GL_UNSIGNED_BYTE, image)
-        else:
-            mtl[values[0]] = map(float, values[1:])
-    return contents
- 
 class OBJ:
     def __init__(self, filename, swapyz=False):
         """Loads a Wavefront OBJ file. """
@@ -85,15 +55,7 @@ class OBJ:
         glFrontFace(GL_CCW)
         for face in self.faces:
             vertices, normals, texture_coords, material = face
- 
-            mtl = self.mtl[material]
-            if 'texture_Kd' in mtl:
-                # use diffuse texmap
-                glBindTexture(GL_TEXTURE_2D, mtl['texture_Kd'])
-            else:
-                # just use diffuse colour
-                glColor(*mtl['Kd'])
- 
+  
             glBegin(GL_POLYGON)
             for i in range(len(vertices)):
                 if normals[i] > 0:

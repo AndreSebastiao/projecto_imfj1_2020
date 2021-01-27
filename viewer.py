@@ -28,7 +28,7 @@ glEnable(GL_DEPTH_TEST)
 glShadeModel(GL_SMOOTH)           # most obj files expect to be smooth-shaded
  
 # LOAD OBJECT AFTER PYGAME INIT
-obj = obj('banana_plant.obj', swapyz=False)
+obj = OBJ('banana_plant.obj', swapyz=False)
  
 clock = pygame.time.Clock()
  
@@ -46,19 +46,19 @@ rotate = move = False
 while 1:
     clock.tick(30)
     for e in pygame.event.get():
-        if e.type == QUIT:
+        if e.type == pygame.QUIT:
             sys.exit()
-        elif e.type == KEYDOWN and e.key == K_ESCAPE:
+        elif e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
             sys.exit()
-        elif e.type == MOUSEBUTTONDOWN:
+        elif e.type == pygame.MOUSEBUTTONDOWN:
             if e.button == 4: zpos = max(1, zpos-1)
             elif e.button == 5: zpos += 1
             elif e.button == 1: rotate = True
             elif e.button == 3: move = True
-        elif e.type == MOUSEBUTTONUP:
+        elif e.type == pygame.MOUSEBUTTONUP:
             if e.button == 1: rotate = False
             elif e.button == 3: move = False
-        elif e.type == MOUSEMOTION:
+        elif e.type == pygame.MOUSEMOTION:
             i, j = e.rel
             if rotate:
                 rx += i
