@@ -64,6 +64,7 @@ def main():
                 return
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    # Exits the application immediately
                     return
                 elif event.key == pygame.K_DOWN:
                     ax = (Vector3(-1,0,0) * math.radians(angle) * delta_time)
@@ -97,12 +98,11 @@ def main():
                     obj1.position = obj1.position + Vector3(-0.01, 0, 0)
                 elif event.key == pygame.K_d:
                     obj1.position = obj1.position + Vector3(0.01, 0, 0)
+                elif event.key == pygame.K_q:
+                    obj1.position = obj1.position + Vector3(0, 0, 0.01)
+                elif event.key == pygame.K_e:
+                    obj1.position = obj1.position + Vector3(o, 0, -0.01)
                     
-                
-                
-
-                
-
         # Clears the screen with a very dark blue (0, 0, 20)
         screen.fill((0, 0, 0))
 
