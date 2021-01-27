@@ -1,68 +1,69 @@
 import pygame
+import OpenGL
+from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from OpenGL.GLUT import *
- 
-class OBJ:
-    def __init__(self, filename, swapyz=False):
-        """Loads a Wavefront OBJ file. """
-        self.vertices = []
-        self.normals = []
-        self.texcoords = []
-        self.faces = []
- 
-        material = None
-        for line in open(filename, "r"):
-            if line.startswith('#'): continue
-            values = line.split()
-            if not values: continue
-            if values[0] == 'v':
-                v = map(float, values[1:4])
-                if swapyz:
-                    v = v[0], v[2], v[1]
-                self.vertices.append(v)
-            elif values[0] == 'vn':
-                v = map(float, values[1:4])
-                if swapyz:
-                    v = v[0], v[2], v[1]
-                self.normals.append(v)
-            elif values[0] == 'vt':
-                self.texcoords.append(map(float, values[1:3]))
-            elif values[0] in ('usemtl', 'usemat'):
-                material = values[1]
-            elif values[0] == 'mtllib':
-                self.mtl = MTL(values[1])
-            elif values[0] == 'f':
-                face = []
-                texcoords = []
-                norms = []
-                for v in values[1:]:
-                    w = v.split('/')
-                    face.append(int(w[0]))
-                    if len(w) >= 2 and len(w[1]) > 0:
-                        texcoords.append(int(w[1]))
-                    else:
-                        texcoords.append(0)
-                    if len(w) >= 3 and len(w[2]) > 0:
-                        norms.append(int(w[2]))
-                    else:
-                        norms.append(0)
-                self.faces.append((face, norms, texcoords, material))
- 
-        self.gl_list = glGenLists(1)
-        glNewList(self.gl_list, GL_COMPILE)
-        glEnable(GL_TEXTURE_2D)
-        glFrontFace(GL_CCW)
-        for face in self.faces:
-            vertices, normals, texture_coords, material = face
-  
-            glBegin(GL_POLYGON)
-            for i in range(len(vertices)):
-                if normals[i] > 0:
-                    glNormal3fv(self.normals[normals[i] - 1])
-                if texture_coords[i] > 0:
-                    glTexCoord2fv(self.texcoords[texture_coords[i] - 1])
-                glVertex3fv(self.vertices[vertices[i] - 1])
-            glEnd()
-        glDisable(GL_TEXTURE_2D)
-        glEndList()
+import pywavefront
+
+scene = pywavefront.Wavefront('banana_plant.obj', collect_faces=True)
+
+scene_box = (scene.vertices[0], scene.vertices[0])
+for vertex in scene.vertices:
+    min_v = [min(scene_box[0][i], vertex[i]) for i in range(3)]
+    max_v = [max(scene_box[1][i], vertex[i]) for i in range(3)]
+    scene_box = (min_v, max_v)
+
+scene_size     = [scene_box[1][i]-scene_box[0][i] for i in range(3)]
+max_scene_size = max(scene_size)
+scaled_size    = 5
+scene_scale    = [scaled_size/max_scene_size for i in range(3)]
+scene_trans    = [-(scene_box[1][i]+scene_box[0][i])/2 for i in range(3)]
+
+def Model():
+    glPushMatrix()
+    glScalef(*scene_scale)
+    glTranslatef(*scene_trans)
+
+    for mesh in scene.mesh_list:
+        glBegin(GL_TRIANGLES)
+        for face in mesh.faces:
+            for vertex_i in face:
+                glVertex3f(*scene.vertices[vertex_i])
+        glEnd()
+
+    glPopMatrix()
+
+def main():
+        pygame.init()
+        display = (800, 600)
+        pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+        gluPerspective(45, (display[0] / display[1]), 1, 500.0)
+        glTranslatef(0.0, 0.0, -10)
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        glTranslatef(-0.5,0,0)
+                    if event.key == pygame.K_RIGHT:
+                        glTranslatef(0.5,0,0)
+                    if event.key == pygame.K_UP:
+                        glTranslatef(0,1,0)
+                    if event.key == pygame.K_DOWN:
+                        glTranslatef(0,-1,0)
+
+            glRotatef(1, 5, 1, 1)
+            glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+            Model()
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+
+            pygame.display.flip()
+            pygame.time.wait(10)
+
+main()
