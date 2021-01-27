@@ -99,9 +99,9 @@ def main():
                 elif event.key == pygame.K_d:
                     obj1.position = obj1.position + Vector3(0.01, 0, 0)
                 elif event.key == pygame.K_q:
-                    obj1.position = obj1.position + Vector3(0, 0, 0.01)
+                    obj1.position = obj1.position + Vector3(0, 0, 0.05)
                 elif event.key == pygame.K_e:
-                    obj1.position = obj1.position + Vector3(o, 0, -0.01)
+                    obj1.position = obj1.position + Vector3(0, 0, -0.05)
                     
         # Clears the screen with a very dark blue (0, 0, 20)
         screen.fill((0, 0, 0))
